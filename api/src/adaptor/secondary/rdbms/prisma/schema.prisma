@@ -1,0 +1,184 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum GenderType {
+  MAN
+  WOMAN
+  OTHERS
+}
+
+model PUser {
+  id         String       @id @db.VarChar(25)
+  name       String       @db.VarChar(40)
+  email      String       @unique @db.VarChar(80)
+  password   String       @db.VarChar(80)
+  gender     GenderType
+  age        Int          @db.Int
+  location   String       @db.VarChar(50)
+  createdAt  DateTime     @default(now()) @db.Timestamp(0)
+  updateAt   DateTime     @default(now()) @updatedAt @db.Timestamp(0)
+  User_Pet   User_Pet[]
+  Bragging   Bragging[]
+  Review     Review[]
+  Like       Like[]
+  Question   Question[]
+  Respondent Respondent[]
+
+  @@map("users")
+}
+
+model Pet {
+  id             String      @id @db.VarChar(25)
+  name           String      @db.VarChar(45)
+  picture        String?     @db.VarChar(255)
+  kinds          String      @db.VarChar(45)
+  gender         String      @db.VarChar(10)
+  birthday       DateTime    @db.DateTime()
+  colour         String      @db.VarChar(45)
+  welcome_family DateTime    @db.DateTime()
+  memo           String      @db.LongText
+  createdAt      DateTime    @default(now()) @db.Timestamp(0)
+  updateAt       DateTime    @default(now()) @updatedAt @db.Timestamp(0)
+  User_Pet       User_Pet[]
+  Condition      Condition[]
+  Bragging       Bragging[]
+  Like           Like[]
+  Care           Care[]
+  Spending       Spending[]
+
+  @@map("pets")
+}
+
+model User_Pet {
+  id        String   @id @db.VarChar(25)
+  user      PUser    @relation(fields: [userId], references: [id])
+  userId    String   @map("user_id") @db.VarChar(25)
+  pet       Pet      @relation(fields: [petId], references: [id])
+  petId     String   @map("ret_id") @db.VarChar(25)
+  createdAt DateTime @default(now()) @db.Timestamp(0)
+  updateAt  DateTime @default(now()) @updatedAt @db.Timestamp(0)
+
+  @@map("users_pets")
+}
+
+model Condition {
+  id          String   @id @db.VarChar(25)
+  weight      Int      @db.Int //体重
+  length      Int      @db.Int //体長
+  temperature Int      @db.Int //体温
+  vitality    String   @db.VarChar(10) //元気
+  diarrhea    String   @db.VarChar(10) //下痢
+  condition   String   @db.VarChar(255) //体調
+  vomiting    String   @db.VarChar(10) //嘔吐
+  pet         Pet      @relation(fields: [petId], references: [id])
+  petId       String   @map("ret_id") @db.VarChar(25)
+  createdAt   DateTime @default(now()) @db.Timestamp(0)
+  updateAt    DateTime @default(now()) @updatedAt @db.Timestamp(0)
+
+  @@map("conditions")
+}
+
+model Bragging {
+  id        String   @id @db.VarChar(25)
+  title     String   @db.VarChar(255)
+  content   String   @db.VarChar(255)
+  picture   String?  @db.VarChar(255)
+  user      PUser    @relation(fields: [userId], references: [id])
+  userId    String   @map("user_id") @db.VarChar(25)
+  pet       Pet      @relation(fields: [petId], references: [id])
+  petId     String   @map("ret_id") @db.VarChar(25)
+  createdAt DateTime @default(now()) @db.Timestamp(0)
+  updateAt  DateTime @default(now()) @updatedAt @db.Timestamp(0)
+
+  @@map("branggings")
+}
+
+model Review {
+  id         String   @id @db.VarChar(25)
+  name       String   @db.VarChar(255)
+  content    String   @db.VarChar(255)
+  category   String   @db.VarChar(255)
+  evaliation String   @db.VarChar(255) //評価
+  picture    String?  @db.VarChar(255)
+  user       PUser    @relation(fields: [userId], references: [id])
+  userId     String   @map("user_id") @db.VarChar(25)
+  createdAt  DateTime @default(now()) @db.Timestamp(0)
+  updateAt   DateTime @default(now()) @updatedAt @db.Timestamp(0)
+
+  @@map("reviews")
+}
+
+model Like {
+  id        String   @id @db.VarChar(25)
+  user      PUser    @relation(fields: [userId], references: [id])
+  userId    String   @map("user_id") @db.VarChar(25)
+  pet       Pet      @relation(fields: [petId], references: [id])
+  petId     String   @map("ret_id") @db.VarChar(25)
+  createdAt DateTime @default(now()) @db.Timestamp(0)
+  updateAt  DateTime @default(now()) @updatedAt @db.Timestamp(0)
+
+  @@map("likes")
+}
+
+model Question {
+  id             String   @id @db.VarChar(25)
+  title          String   @db.VarChar(255)
+  content        String   @db.LongText
+  question_genre String   @db.VarChar(50)
+  question_time  DateTime @db.DateTime()
+  answered       Boolean  @db.TinyInt
+  user           PUser    @relation(fields: [userId], references: [id])
+  userId         String   @map("user_id") @db.VarChar(25)
+  createdAt      DateTime @default(now()) @db.Timestamp(0)
+  updateAt       DateTime @default(now()) @updatedAt @db.Timestamp(0)
+
+  Respondent Respondent[]
+
+  @@map("questions")
+}
+
+model Respondent {
+  id         String   @id @db.VarChar(25)
+  content    String   @db.LongText
+  user       PUser    @relation(fields: [userId], references: [id])
+  userId     String   @map("user_id") @db.VarChar(25)
+  question   Question @relation(fields: [questionId], references: [id])
+  questionId String   @map("question_id") @db.VarChar(25)
+  createdAt  DateTime @default(now()) @db.Timestamp(0)
+  updateAt   DateTime @default(now()) @updatedAt @db.Timestamp(0)
+
+  @@map("respondents")
+}
+
+model Care {
+  id        String   @id @db.VarChar(25)
+  name      String   @db.VarChar(255)
+  content   String   @db.LongText
+  time      DateTime @db.DateTime()
+  pet       Pet      @relation(fields: [petId], references: [id])
+  petId     String   @map("ret_id") @db.VarChar(25)
+  createdAt DateTime @default(now()) @db.Timestamp(0)
+  updateAt  DateTime @default(now()) @updatedAt @db.Timestamp(0)
+
+  @@map("cares")
+}
+
+model Spending {
+  id            String   @id @db.VarChar(25)
+  merchandise   String   @db.VarChar(255)
+  category      String   @db.VarChar(50)
+  amount        Int      @db.Int
+  purchase_date DateTime @db.DateTime()
+  pet           Pet      @relation(fields: [petId], references: [id])
+  petId         String   @map("ret_id") @db.VarChar(25)
+  createdAt     DateTime @default(now()) @db.Timestamp(0)
+  updateAt      DateTime @default(now()) @updatedAt @db.Timestamp(0)
+
+  @@map("spendings")
+}
