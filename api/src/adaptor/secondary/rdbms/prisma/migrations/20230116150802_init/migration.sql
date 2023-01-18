@@ -69,7 +69,7 @@ CREATE TABLE `reviews` (
     `name` VARCHAR(255) NOT NULL,
     `content` VARCHAR(255) NOT NULL,
     `category` VARCHAR(255) NOT NULL,
-    `evaliation` VARCHAR(255) NOT NULL,
+    `evaluation` VARCHAR(255) NOT NULL,
     `picture` VARCHAR(255) NULL,
     `user_id` VARCHAR(25) NOT NULL,
 
