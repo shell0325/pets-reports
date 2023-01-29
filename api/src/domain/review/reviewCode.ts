@@ -1,12 +1,12 @@
 import { getEq, iso, Newtype } from 'newtype-ts';
-import * as S from 'fp-ts/string';
+import * as N from 'fp-ts/number';
 
 export type ReviewCode = Newtype<
   { readonly REVIEW_CODE: unique symbol },
-  string
+  number
 >;
 
 export const ReviewCode = {
   iso: iso<ReviewCode>(),
-  eq: getEq<ReviewCode>(S.Eq),
+  eq: getEq<ReviewCode>(N.Eq),
 } as const;

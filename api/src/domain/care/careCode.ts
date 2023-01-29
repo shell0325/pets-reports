@@ -1,9 +1,9 @@
 import { getEq, iso, Newtype } from 'newtype-ts';
-import * as S from 'fp-ts/string';
+import * as N from 'fp-ts/number';
 
-export type CareCode = Newtype<{ readonly CARE_CODE: unique symbol }, string>;
+export type CareCode = Newtype<{ readonly CARE_CODE: unique symbol }, number>;
 
 export const CareCode = {
   iso: iso<CareCode>(),
-  eq: getEq<CareCode>(S.Eq),
+  eq: getEq<CareCode>(N.Eq),
 } as const;

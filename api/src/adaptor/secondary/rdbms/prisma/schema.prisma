@@ -8,180 +8,207 @@ generator client {
 }
 
 enum GenderType {
-  MAN
-  WOMAN
+  MEN
+  WOMEN
   OTHERS
 }
 
-model User {
-  id         String       @id @db.VarChar(25)
-  name       String       @db.VarChar(40)
-  email      String       @unique @db.VarChar(80)
-  password   String       @db.VarChar(80)
-  gender     GenderType
-  age        Int          @db.Int
-  location   String       @db.VarChar(50)
-  createdAt  DateTime     @default(now()) @db.Timestamp(0)
-  updateAt   DateTime     @default(now()) @updatedAt @db.Timestamp(0)
-  User_Pet   User_Pet[]
-  Bragging   Bragging[]
-  Review     Review[]
-  Like       Like[]
-  Question   Question[]
-  Respondent Respondent[]
+enum LocationType {
+  Hokkaido
+  Aomori
+  Iwate
+  Miyagi
+  Akita
+  Yamagata
+  Fukushima
+  Ibaraki
+  Tochigi
+  Gunma
+  Saitama
+  Chiba
+  Tokyo
+  Kanagawa
+  Niigata
+  Toyama
+  Ishikawa
+  Fukui
+  Yamanashi
+  Nagano
+  Gifu
+  Shizuoka
+  Aichi
+  Mie
+  Shiga
+  Kyoto
+  Osaka
+  Hyogo
+  Nara
+  Wakayama
+  Tottori
+  Shimane
+  Okayama
+  Hiroshima
+  Yamaguchi
+  Tokushima
+  Kagawa
+  Ehime
+  Kochi
+  Fukuoka
+  Saga
+  Nagasaki
+  Kumamoto
+  Oita
+  Miyazaki
+  Kagoshima
+  Okinawa
+}
+
+model PUser {
+  id          Int           @id @default(autoincrement())
+  name        String        @db.VarChar(40)
+  email       String        @unique @db.VarChar(80)
+  password    String        @db.VarChar(255)
+  gender      GenderType?
+  age         Int?          @db.Int
+  location    LocationType?
+  PUser_Pet   PUser_Pet[]
+  PBragging   PBragging[]
+  PReview     PReview[]
+  PLike       PLike[]
+  PQuestion   PQuestion[]
+  PRespondent PRespondent[]
 
   @@map("users")
 }
 
-model Pet {
-  id             String      @id @db.VarChar(25)
-  name           String      @db.VarChar(45)
-  picture        String?     @db.VarChar(255)
-  kinds          String      @db.VarChar(45)
-  gender         String      @db.VarChar(10)
-  birthday       DateTime    @db.DateTime()
-  color         String      @db.VarChar(45)
-  welcome_family DateTime    @db.DateTime()
-  memo           String      @db.LongText
-  createdAt      DateTime    @default(now()) @db.Timestamp(0)
-  updateAt       DateTime    @default(now()) @updatedAt @db.Timestamp(0)
-  User_Pet       User_Pet[]
-  Condition      Condition[]
-  Bragging       Bragging[]
-  Like           Like[]
-  Care           Care[]
-  Spending       Spending[]
+model PPet {
+  id             Int          @id @default(autoincrement())
+  name           String       @db.VarChar(45)
+  picture        String?      @db.VarChar(255)
+  kinds          String       @db.VarChar(45)
+  gender         String       @db.VarChar(10)
+  birthday       DateTime     @db.DateTime()
+  color          String       @db.VarChar(45)
+  welcome_family DateTime     @db.DateTime()
+  memo           String?      @db.LongText
+  PUser_Pet      PUser_Pet[]
+  PCondition     PCondition[]
+  PBragging      PBragging[]
+  PLike          PLike[]
+  PCare          PCare[]
+  PSpending      PSpending[]
 
   @@map("pets")
 }
 
-model User_Pet {
-  id        String   @id @db.VarChar(25)
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String   @map("user_id") @db.VarChar(25)
-  pet       Pet      @relation(fields: [petId], references: [id])
-  petId     String   @map("ret_id") @db.VarChar(25)
-  createdAt DateTime @default(now()) @db.Timestamp(0)
-  updateAt  DateTime @default(now()) @updatedAt @db.Timestamp(0)
+model PUser_Pet {
+  id     Int   @id @default(autoincrement())
+  user   PUser @relation(fields: [userId], references: [id])
+  userId Int   @map("user_id")
+  pet    PPet  @relation(fields: [petId], references: [id])
+  petId  Int   @map("ret_id")
 
   @@map("users_pets")
 }
 
-model Condition {
-  id              String   @id @db.VarChar(25)
-  weight          Int      @db.Int //体重
-  length          Int      @db.Int //体長
-  temperature     Int      @db.Int //体温
-  shit            String   @db.VarChar(10) //下痢
-  shit_state      String   @db.LongText
-  condition       String   @db.VarChar(255) //体調
-  condition_state String   @db.LongText
-  vomiting        String   @db.VarChar(10) //嘔吐
-  vomiting_state  String   @db.LongText
-  pet             Pet      @relation(fields: [petId], references: [id])
-  petId           String   @map("ret_id") @db.VarChar(25)
-  createdAt       DateTime @default(now()) @db.Timestamp(0)
-  updateAt        DateTime @default(now()) @updatedAt @db.Timestamp(0)
+model PCondition {
+  id              Int     @id @default(autoincrement())
+  weight          Int?    @db.Int //体重
+  length          Int?    @db.Int //体長
+  temperature     Int?    @db.Int //体温
+  shit            String? @db.VarChar(10) //下痢
+  shit_state      String? @db.LongText
+  condition       String? @db.VarChar(255) //体調
+  condition_state String? @db.LongText
+  vomiting        String? @db.VarChar(10) //嘔吐
+  vomiting_state  String? @db.LongText
+  pet             PPet    @relation(fields: [petId], references: [id])
+  petId           Int     @map("ret_id")
 
   @@map("conditions")
 }
 
-model Bragging {
-  id        String   @id @db.VarChar(25)
-  title     String   @db.VarChar(255)
-  content   String   @db.VarChar(255)
-  picture   String?  @db.VarChar(255)
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String   @map("user_id") @db.VarChar(25)
-  pet       Pet      @relation(fields: [petId], references: [id])
-  petId     String   @map("ret_id") @db.VarChar(25)
-  createdAt DateTime @default(now()) @db.Timestamp(0)
-  updateAt  DateTime @default(now()) @updatedAt @db.Timestamp(0)
+model PBragging {
+  id      Int     @id @default(autoincrement())
+  title   String  @db.VarChar(255) //自慢タイトル
+  content String  @db.VarChar(255) //自慢内容
+  picture String? @db.VarChar(255)
+  user    PUser   @relation(fields: [userId], references: [id])
+  userId  Int     @map("user_id")
+  pet     PPet    @relation(fields: [petId], references: [id])
+  petId   Int     @map("ret_id")
 
   @@map("branggings")
 }
 
-model Review {
-  id         String   @id @db.VarChar(25)
-  name       String   @db.VarChar(255)
-  content    String   @db.VarChar(255)
-  category   String   @db.VarChar(255)
-  evaluation String   @db.VarChar(255) //評価
-  picture    String?  @db.VarChar(255)
-  user       User     @relation(fields: [userId], references: [id])
-  userId     String   @map("user_id") @db.VarChar(25)
-  createdAt  DateTime @default(now()) @db.Timestamp(0)
-  updateAt   DateTime @default(now()) @updatedAt @db.Timestamp(0)
+model PReview {
+  id         Int     @id @default(autoincrement())
+  name       String  @db.VarChar(255) //レビュー対象の名前
+  content    String  @db.VarChar(255) //レビュー内容
+  category   String  @db.VarChar(255) //レビュー対象のカテゴリ
+  evaluation String  @db.VarChar(255) //評価
+  picture    String? @db.VarChar(255)
+  user       PUser   @relation(fields: [userId], references: [id])
+  userId     Int     @map("user_id")
 
   @@map("reviews")
 }
 
-model Like {
-  id        String   @id @db.VarChar(25)
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String   @map("user_id") @db.VarChar(25)
-  pet       Pet      @relation(fields: [petId], references: [id])
-  petId     String   @map("ret_id") @db.VarChar(25)
-  createdAt DateTime @default(now()) @db.Timestamp(0)
-  updateAt  DateTime @default(now()) @updatedAt @db.Timestamp(0)
+model PLike {
+  id     Int   @id @default(autoincrement())
+  user   PUser @relation(fields: [userId], references: [id])
+  userId Int   @map("user_id")
+  pet    PPet  @relation(fields: [petId], references: [id])
+  petId  Int   @map("ret_id")
 
   @@map("likes")
 }
 
-model Question {
-  id             String   @id @db.VarChar(25)
-  title          String   @db.VarChar(255)
-  content        String   @db.LongText
-  question_genre String   @db.VarChar(50)
-  question_time  DateTime @db.DateTime()
-  answered       Boolean  @db.TinyInt
-  user           User     @relation(fields: [userId], references: [id])
-  userId         String   @map("user_id") @db.VarChar(25)
-  createdAt      DateTime @default(now()) @db.Timestamp(0)
-  updateAt       DateTime @default(now()) @updatedAt @db.Timestamp(0)
-
-  Respondent Respondent[]
+model PQuestion {
+  id             Int           @id @default(autoincrement())
+  title          String        @db.VarChar(255) //質問のタイトル
+  content        String        @db.LongText //質問の内容
+  question_genre String        @db.VarChar(50) //質問のジャンル
+  question_time  DateTime      @db.DateTime() //質問した時間
+  answered       Boolean       @db.TinyInt //回答済みかどうか
+  user           PUser         @relation(fields: [userId], references: [id])
+  userId         Int           @map("user_id")
+  PRespondent    PRespondent[]
 
   @@map("questions")
 }
 
-model Respondent {
-  id         String   @id @db.VarChar(25)
-  content    String   @db.LongText
-  user       User     @relation(fields: [userId], references: [id])
-  userId     String   @map("user_id") @db.VarChar(25)
-  question   Question @relation(fields: [questionId], references: [id])
-  questionId String   @map("question_id") @db.VarChar(25)
-  createdAt  DateTime @default(now()) @db.Timestamp(0)
-  updateAt   DateTime @default(now()) @updatedAt @db.Timestamp(0)
+model PRespondent {
+  id         Int       @id @default(autoincrement())
+  content    String    @db.LongText //質問回答の内容
+  user       PUser     @relation(fields: [userId], references: [id])
+  userId     Int       @map("user_id")
+  question   PQuestion @relation(fields: [questionId], references: [id])
+  questionId Int       @map("question_id")
 
   @@map("respondents")
 }
 
-model Care {
-  id        String   @id @db.VarChar(25)
-  name      String   @db.VarChar(255)
-  content   String   @db.LongText
-  time      DateTime @default(now()) @db.Timestamp(0)
-  memo      String   @db.LongText
-  pet       Pet      @relation(fields: [petId], references: [id])
-  petId     String   @map("ret_id") @db.VarChar(25)
-  createdAt DateTime @default(now()) @db.Timestamp(0)
-  updateAt  DateTime @default(now()) @updatedAt @db.Timestamp(0)
+model PCare {
+  id      Int      @id @default(autoincrement())
+  name    String   @db.VarChar(255) //世話の名前
+  content String   @db.LongText // 世話の内容
+  time    DateTime @db.Timestamp() //世話した時間
+  memo    String?  @db.LongText
+  pet     PPet     @relation(fields: [petId], references: [id])
+  petId   Int      @map("ret_id")
 
   @@map("cares")
 }
 
-model Spending {
-  id            String   @id @db.VarChar(25)
-  name   String   @db.VarChar(255)
-  category      String   @db.VarChar(50)
-  amount        Int      @db.Int
-  spending_date DateTime @db.DateTime()
-  pet           Pet      @relation(fields: [petId], references: [id])
-  petId         String   @map("ret_id") @db.VarChar(25)
-  createdAt     DateTime @default(now()) @db.Timestamp(0)
-  updateAt      DateTime @default(now()) @updatedAt @db.Timestamp(0)
+model PSpending {
+  id            Int      @id @default(autoincrement())
+  name          String   @db.VarChar(255) //支払いしたものの名前
+  category      String   @db.VarChar(50) //支払いのカテゴリ
+  amount        Int      @db.Int //支払いした金額
+  spending_date DateTime @db.DateTime() //支払い日時
+  pet           PPet     @relation(fields: [petId], references: [id])
+  petId         Int      @map("ret_id")
 
   @@map("spendings")
 }
