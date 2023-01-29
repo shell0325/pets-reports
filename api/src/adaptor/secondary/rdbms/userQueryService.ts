@@ -13,10 +13,8 @@ import {
   IUserQueryService,
   USER_QUERY_SERVICE_PROVIDE,
 } from '~/usecase/queries/userQueryService';
-import { randomBytes, scrypt as _scrypt } from 'crypto';
-import { promisify } from 'util';
+import * as bcrypt from 'bcryptjs';
 
-const scrypt = promisify(_scrypt);
 
 @Injectable()
 export class UserQueryService implements IUserQueryService {
@@ -44,13 +42,10 @@ export class UserQueryService implements IUserQueryService {
    * @returns ハッシュ化されたパスワード
    */
   async passwordHash(password: string): Promise<string> {
-    const salt = randomBytes(8).toString('hex');
+    const salt: string = await bcrypt.genSaltSync(8);
 
-    // パスワードとSaltを連結してハッシュ化
-    const hash = (await scrypt(password, salt, 32)) as Buffer;
+    const result = await bcrypt.hashSync(password, salt);
 
-    // Saltとハッシュ値を結合
-    const result = salt + '.' + hash.toString('hex');
     return result;
   }
 }
