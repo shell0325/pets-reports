@@ -24,7 +24,7 @@ services:
       - ./api:/node_modules
     platform: linux/amd64
     tty: true
-    command: bash -c "yarn prisma:deploy && yarn start:debug"
+    command: sh -c "yarn prisma:deploy && yarn start:debug"
     container_name: api
 
 

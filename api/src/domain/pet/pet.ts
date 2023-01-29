@@ -24,5 +24,5 @@ export type Pet = Readonly<{
   birthday: Date;
   color: string;
   welcome_family: Date;
-  memo: string;
+  memo: string | null;
 }>;

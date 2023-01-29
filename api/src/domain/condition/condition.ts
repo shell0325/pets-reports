@@ -21,14 +21,14 @@ import { ConditionType } from './conditionType';
 
 export type Condition = Readonly<{
   id: ConditionCode;
-  weight: number;
-  length: number;
-  temperature: number;
+  weight: number | null;
+  length: number | null;
+  temperature: number | null;
   shit: ShitType | null;
   shit_state: string | null;
   condition: ConditionType | null;
   condition_state: string | null;
-  vomiting: boolean;
+  vomiting: boolean | null;
   vomiting_state: string | null;
   pet_id: PetCode;
 }>;

@@ -9,6 +9,7 @@ COPY package.json .
 COPY ./src/adaptor/secondary/rdbms/prisma/schema.prisma ./src/adaptor/secondary/rdbms/prisma/schema.prisma
 RUN yarn install
 RUN yarn prisma:generate
+# RUN npm rebuild bcrypt --build-from-source
 
 EXPOSE 3000
 
