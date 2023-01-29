@@ -22,38 +22,18 @@
     },
     "strict": true,
 
-    // "incremental": true,
-    // "target": "ESNext",
-    // "module": "commonjs",
-    // "sourceMap": true,
-    // "strict": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
     "preserveSymlinks": true,
-    // "allowSyntheticDefaultImports": true,
-    // "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
     "noImplicitReturns": true,
-    "noPropertyAccessFromIndexSignature": true,
     "noUncheckedIndexedAccess": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    // "emitDecoratorMetadata": true,
-    // "experimentalDecorators": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "assumeChangesOnlyAffectDirectDependencies": true,
     "emitBOM": true,
     "extendedDiagnostics": false, // パフォーマンス解析時に
     "noErrorTruncation": true,
-    // "skipLibCheck": true,
-    // "forceConsistentCasingInFileNames": true,
-    // "declaration": true,
-    "strictPropertyInitialization": false,
-    // "outDir": "./dist",
-    // "baseUrl": "./src",
-    // "paths": {
-      // "~/*": ["*"]
-    // }
+    "strictPropertyInitialization": false
   }
 }
