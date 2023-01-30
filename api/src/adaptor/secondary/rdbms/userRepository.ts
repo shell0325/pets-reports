@@ -10,6 +10,7 @@ import {
   CreateUserInputDto,
   CreateUserOutputDto,
 } from '~/usecase/commands/createUserUseCase/createUserUseCase';
+import { updateUserInputDto } from '~/usecase/commands/updateUserUseCase/updateUserUseCase';
 import { PrismaService } from './prisma/prismaService';
 
 export const convertUserToUser = (pUser: PUser): User => {
@@ -32,7 +33,7 @@ export class UserRepository implements IUserRepository {
    * @param user ユーザー登録に必要な情報
    * @returns 作成したユーザー情報
    */
-  async save(user: CreateUserInputDto): Promise<any> {
+  async save(user: CreateUserInputDto): Promise<User> {
     if (!user) {
       throw new NotFoundException('ユーザー情報を入力してください。');
     }
@@ -66,6 +67,21 @@ export class UserRepository implements IUserRepository {
     } else {
       return convertUserToUser(user);
     }
+  }
+
+  async updateUser(input: updateUserInputDto): Promise<User> {
+    const updateUser = await this.prisma.pUser.update({
+      where: {
+        id: UserCode.iso.unwrap(input.id),
+      },
+      data: {
+        name: input.name,
+        gender: input.gender,
+        age: input.age,
+        location: input.location,
+      },
+    });
+    return convertUserToUser(updateUser);
   }
 }
 

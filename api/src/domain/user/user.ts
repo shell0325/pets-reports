@@ -45,4 +45,9 @@ export const User = {
       ...omitInput,
     };
   },
+
+  update(input: User) {
+    const { password, ...omitInput } = input;
+    return omitInput;
+  },
 };
