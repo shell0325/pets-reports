@@ -14,7 +14,7 @@ import {
   USER_QUERY_SERVICE_PROVIDE,
 } from '~/usecase/queries/userQueryService';
 import * as bcrypt from 'bcryptjs';
-
+import { User } from '~/domain/user/user';
 
 @Injectable()
 export class UserQueryService implements IUserQueryService {
@@ -47,6 +47,14 @@ export class UserQueryService implements IUserQueryService {
     const result = await bcrypt.hashSync(password, salt);
 
     return result;
+  }
+
+  async findUser(email: string): Promise<User> {
+    const user = await this.userRepository.findUser(email);
+    if (!user) {
+      throw new NotFoundException('ユーザーが見つかりません。')
+    }
+    return user
   }
 }
 
