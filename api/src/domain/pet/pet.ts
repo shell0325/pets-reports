@@ -1,5 +1,6 @@
 import { GenderType } from '@prisma/client';
 import { PetCode } from './petCode';
+import * as Eq from 'fp-ts/Eq';
 
 /**
  * ペット
@@ -26,3 +27,26 @@ export type Pet = Readonly<{
   welcome_family: Date;
   memo: string | null;
 }>;
+
+export type RegisterPetInput = Readonly<{
+  id: PetCode;
+  name: string;
+  picture: string | null;
+  kinds: string;
+  gender: GenderType;
+  birthday: Date;
+  color: string;
+  welcome_family: Date;
+  memo: string | null;
+}>;
+
+export const Pet = {
+  eq: Eq.contramap<PetCode, Pet>((pet) => pet.id)(PetCode.eq),
+  register(input: RegisterPetInput) {
+    const { id, ...omitInput } = input;
+    return {
+      id: PetCode.iso.unwrap(id),
+      ...omitInput,
+    };
+  },
+};
