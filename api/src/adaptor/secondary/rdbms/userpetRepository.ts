@@ -1,18 +1,18 @@
 import { Injectable, NotFoundException, Provider } from '@nestjs/common';
-import { PUser_Pet } from '@prisma/client';
+import { PUserPet } from '@prisma/client';
 import { PetCode } from '~/domain/pet/petCode';
 import { UserCode } from '~/domain/user/userCode';
 import { RegisterUserPet, UserPet } from '~/domain/userpet/userpet';
-import { User_PetCode } from '~/domain/userpet/userpetCode';
+import { UserPetCode } from '~/domain/userpet/userpetCode';
 import {
   IUserPetRepository,
   USER_PET_REPOSITORY_PROVIDE,
 } from '~/domain/userpet/userpetRepository';
 import { PrismaService } from './prisma/prismaService';
 
-export const convertUserPetTOUserPet = (pUserPet: PUser_Pet): UserPet => {
+export const convertUserPetTOUserPet = (pUserPet: PUserPet): UserPet => {
   return {
-    id: User_PetCode.iso.wrap(pUserPet.id),
+    id: UserPetCode.iso.wrap(pUserPet.id),
     userId: UserCode.iso.wrap(pUserPet.userId),
     petId: PetCode.iso.wrap(pUserPet.petId),
   };
@@ -26,7 +26,7 @@ export class UserPetRepository implements IUserPetRepository {
     if (!userPet) {
       throw new NotFoundException('ユーザーもしくはペット情報がありません。');
     }
-    const pUserPet = await this.prisma.pUser_Pet.create({
+    const pUserPet = await this.prisma.pUserPet.create({
       data: {
         userId: UserCode.iso.unwrap(userPet.userId),
         petId: PetCode.iso.unwrap(userPet.petId),
@@ -39,7 +39,7 @@ export class UserPetRepository implements IUserPetRepository {
     if (!userId) {
       return null;
     }
-    const userPet = await this.prisma.pUser_Pet.findMany({
+    const userPet = await this.prisma.pUserPet.findMany({
       where: {
         userId: UserCode.iso.unwrap(userId),
       },

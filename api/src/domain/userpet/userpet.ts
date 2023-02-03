@@ -1,6 +1,6 @@
 import { PetCode } from '../pet/petCode';
 import { UserCode } from '../user/userCode';
-import { User_PetCode } from './userpetCode';
+import { UserPetCode } from './userpetCode';
 import * as Eq from 'fp-ts/Eq';
 import { Pet } from '../pet/pet';
 
@@ -13,7 +13,7 @@ import { Pet } from '../pet/pet';
  */
 
 export type UserPet = Readonly<{
-  id: User_PetCode;
+  id: UserPetCode;
   userId: UserCode;
   petId: PetCode;
 }>;
@@ -24,8 +24,8 @@ export type RegisterUserPet = Readonly<{
 }>;
 
 export const UserPet = {
-  eq: Eq.contramap<User_PetCode, UserPet>((userPet) => userPet.id)(
-    User_PetCode.eq,
+  eq: Eq.contramap<UserPetCode, UserPet>((userPet) => userPet.id)(
+    UserPetCode.eq,
   ),
   register(input: Pet, userId: UserCode) {
     const { id, ...omitInput } = input;

@@ -71,7 +71,7 @@ model PUser {
   gender      GenderType?
   age         Int?          @db.Int
   location    LocationType?
-  PUser_Pet   PUser_Pet[]
+  PUserPet    PUserPet[]
   PBragging   PBragging[]
   PReview     PReview[]
   PLike       PLike[]
@@ -91,7 +91,7 @@ model PPet {
   color          String       @db.VarChar(45)
   welcome_family DateTime     @db.DateTime()
   memo           String?      @db.LongText
-  PUser_Pet      PUser_Pet[]
+  PUserPet       PUserPet[]
   PCondition     PCondition[]
   PBragging      PBragging[]
   PLike          PLike[]
@@ -101,7 +101,7 @@ model PPet {
   @@map("pets")
 }
 
-model PUser_Pet {
+model PUserPet {
   id     Int   @id @default(autoincrement())
   user   PUser @relation(fields: [userId], references: [id])
   userId Int   @map("user_id")
