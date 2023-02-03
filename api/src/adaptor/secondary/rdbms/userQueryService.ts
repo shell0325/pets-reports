@@ -49,6 +49,11 @@ export class UserQueryService implements IUserQueryService {
     return result;
   }
 
+  /**
+   * ユーザーの検索
+   * @param email メールアドレス
+   * @returns ユーザー情報
+   */
   async findUser(email: string): Promise<User> {
     const user = await this.userRepository.findUser(email);
     if (!user) {

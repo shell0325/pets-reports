@@ -86,7 +86,7 @@ model PPet {
   name           String       @db.VarChar(45)
   picture        String?      @db.VarChar(255)
   kinds          String       @db.VarChar(45)
-  gender         String       @db.VarChar(10)
+  gender         GenderType
   birthday       DateTime     @db.DateTime()
   color          String       @db.VarChar(45)
   welcome_family DateTime     @db.DateTime()
