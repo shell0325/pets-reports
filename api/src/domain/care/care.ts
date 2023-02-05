@@ -9,7 +9,7 @@ import { CareCode } from './careCode';
  * @property content - お世話の内容
  * @property time - お世話の時間
  * @property memo - メモ
- * @property pet_id - ペットID
+ * @property petId - ペットID
  */
 
 export type Care = Readonly<{
@@ -18,5 +18,7 @@ export type Care = Readonly<{
   content: string;
   time: Date;
   memo: string | null;
-  pet_id: PetCode;
+  petId: PetCode;
+  createdAt: Date;
+  updatedAt: Date;
 }>;

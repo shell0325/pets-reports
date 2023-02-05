@@ -26,6 +26,8 @@ export type Pet = Readonly<{
   color: string;
   welcome_family: Date;
   memo: string | null;
+  createdAt: Date;
+  updatedAt: Date;
 }>;
 
 export type RegisterPetInput = Readonly<{
@@ -38,6 +40,8 @@ export type RegisterPetInput = Readonly<{
   color: string;
   welcome_family: Date;
   memo: string | null;
+  createdAt: Date;
+  updatedAt: Date;
 }>;
 
 export const Pet = {

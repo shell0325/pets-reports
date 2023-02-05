@@ -27,14 +27,16 @@ describe('userQueryServiceのテスト', () => {
     });
   });
 
-  describe('findUserテスト:正常系テスト', () => {
-    test('user情報が取得できること', async () => {
-      const pUser = await prismaService.pUser.findUnique({
-        where: { email: 'testMail@test.com' },
-      });
+  describe('findUserテスト', () => {
+    describe('正常系テスト', () => {
+      test('user情報が取得できること', async () => {
+        const pUser = await prismaService.pUser.findUnique({
+          where: { email: 'testMail@test.com' },
+        });
 
-      const output = await userQueryService.findUser('testMail@test.com');
-      expect(output).toEqual(pUser);
+        const output = await userQueryService.findUser('testMail@test.com');
+        expect(output).toEqual(pUser);
+      });
     });
   });
 });

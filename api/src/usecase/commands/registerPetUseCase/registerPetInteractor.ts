@@ -19,10 +19,6 @@ import {
   PET_QUERY_SERVICE_PROVIDE,
 } from '~/usecase/queries/petQueryService';
 import {
-  IUserPetQueryService,
-  USER_PET_QUERY_SERVICE_PROVIDE,
-} from '~/usecase/queries/userpetQueryService';
-import {
   RegisterPetInputDto,
   RegisterPetOutputDto,
   RegisterPetUseCase,
@@ -38,8 +34,6 @@ export class RegisterPetInteractor implements RegisterPetUseCase {
     private readonly petService: IPetQueryService,
     @Inject(USER_PET_REPOSITORY_PROVIDE)
     private readonly userPetRepository: IUserPetRepository,
-    @Inject(USER_PET_QUERY_SERVICE_PROVIDE)
-    private readonly userPetQueryService: IUserPetQueryService,
   ) {}
 
   async run(input: RegisterPetInputDto): Promise<RegisterPetOutputDto> {

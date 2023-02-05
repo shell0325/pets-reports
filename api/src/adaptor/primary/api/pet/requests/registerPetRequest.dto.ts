@@ -49,4 +49,12 @@ export class RegisterPetRequestDto {
   @Type(() => Number)
   @IsInt()
   userId: UserCode;
+
+  @IsOptional()
+  @IsDateString()
+  createdAt: Date;
+
+  @IsOptional()
+  @IsDateString()
+  updatedAt: Date;
 }

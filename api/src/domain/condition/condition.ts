@@ -2,6 +2,7 @@ import { PetCode } from '../pet/petCode';
 import { ShitType } from '../shitType';
 import { ConditionCode } from './conditionCode';
 import { ConditionType } from './conditionType';
+import * as Eq from 'fp-ts/Eq';
 
 /**
  * 体調
@@ -16,7 +17,7 @@ import { ConditionType } from './conditionType';
  * @property condition_state 体調状態
  * @property vomiting - 嘔吐
  * @property vomiting_state - 嘔吐の状態
- * @property pet_id - ペットID
+ * @property petId - ペットID
  */
 
 export type Condition = Readonly<{
@@ -28,7 +29,23 @@ export type Condition = Readonly<{
   shit_state: string | null;
   condition: ConditionType | null;
   condition_state: string | null;
-  vomiting: boolean | null;
+  vomiting: boolean;
   vomiting_state: string | null;
-  pet_id: PetCode;
+  petId: PetCode;
+  createdAt: Date;
+  updatedAt: Date;
 }>;
+
+export const Condition = {
+  eq: Eq.contramap<ConditionCode, Condition>((condition) => condition.id)(
+    ConditionCode.eq,
+  ),
+  register(input: Condition) {
+    const { id, petId, ...omitInput } = input;
+    return {
+      id: ConditionCode.iso.unwrap(id),
+      petId: PetCode.iso.unwrap(petId),
+      ...omitInput,
+    };
+  },
+};

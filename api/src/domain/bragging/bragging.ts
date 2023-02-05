@@ -6,7 +6,7 @@
  * @property content - 自慢内容
  * @property picture - 写真
  * @property contributorID - 投稿者ID
- * @property pet_id - ペット
+ * @property petId - ペット
  */
 
 import { PetCode } from '../pet/petCode';
@@ -19,5 +19,7 @@ export type Bragging = Readonly<{
   content: string;
   picture: string | null;
   contributor_id: UserCode;
-  pet_id: PetCode;
+  petId: PetCode;
+  createdAt: Date;
+  updatedAt: Date;
 }>;
