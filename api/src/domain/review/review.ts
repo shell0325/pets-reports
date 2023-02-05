@@ -22,4 +22,6 @@ export type Review = Readonly<{
   evaluation: EvaluationType;
   picture: string | null;
   user_id: UserCode;
+  createdAt: Date;
+  updatedAt: Date;
 }>;

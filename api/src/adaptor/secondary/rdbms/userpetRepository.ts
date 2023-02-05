@@ -11,10 +11,12 @@ import {
 import { PrismaService } from './prisma/prismaService';
 
 export const convertUserPetTOUserPet = (pUserPet: PUserPet): UserPet => {
+  const { id, userId, petId, ...omitInput } = pUserPet;
   return {
-    id: UserPetCode.iso.wrap(pUserPet.id),
-    userId: UserCode.iso.wrap(pUserPet.userId),
-    petId: PetCode.iso.wrap(pUserPet.petId),
+    id: UserPetCode.iso.wrap(id),
+    userId: UserCode.iso.wrap(userId),
+    petId: PetCode.iso.wrap(petId),
+    ...omitInput,
   };
 };
 

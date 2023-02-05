@@ -23,6 +23,8 @@ export type User = Readonly<{
   gender: GenderType | null;
   age: number | null;
   location: LocationType | null;
+  createdAt: Date;
+  updatedAt: Date;
 }>;
 
 export type CreateUserOutputDto = {
@@ -32,6 +34,8 @@ export type CreateUserOutputDto = {
   gender: GenderType | null;
   age: number | null;
   location: LocationType | null;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export const User = {

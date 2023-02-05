@@ -14,4 +14,6 @@ export type Like = Readonly<{
   id: LikeCode;
   likeUserId: UserCode;
   petId: PetCode;
+  createdAt: Date;
+  updatedAt: Date;
 }>;

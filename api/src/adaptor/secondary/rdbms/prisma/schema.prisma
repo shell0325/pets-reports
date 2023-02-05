@@ -63,6 +63,24 @@ enum LocationType {
   Okinawa
 }
 
+enum ShitType {
+  TYPE1
+  TYPE2
+  TYPE3
+  TYPE4
+  TYPE5
+  TYPE6
+  TYPE7
+}
+
+enum ConditionType {
+  GREAT_CONDITION
+  GENERALLY_GOOD
+  NORMAL
+  NOT_FEELING_WELL
+  SICK
+}
+
 model PUser {
   id          Int           @id @default(autoincrement())
   name        String        @db.VarChar(40)
@@ -70,6 +88,8 @@ model PUser {
   password    String        @db.VarChar(255)
   gender      GenderType?
   age         Int?          @db.Int
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @default(now()) @updatedAt @map("updated_at")
   location    LocationType?
   PUserPet    PUserPet[]
   PBragging   PBragging[]
@@ -87,10 +107,12 @@ model PPet {
   picture        String?      @db.VarChar(255)
   kinds          String       @db.VarChar(45)
   gender         GenderType
-  birthday       DateTime     @db.DateTime()
+  birthday       DateTime     @db.DateTime(0)
   color          String       @db.VarChar(45)
-  welcome_family DateTime     @db.DateTime()
+  welcome_family DateTime     @db.DateTime(0)
   memo           String?      @db.LongText
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @default(now()) @updatedAt @map("updated_at")
   PUserPet       PUserPet[]
   PCondition     PCondition[]
   PBragging      PBragging[]
@@ -102,64 +124,74 @@ model PPet {
 }
 
 model PUserPet {
-  id     Int   @id @default(autoincrement())
-  user   PUser @relation(fields: [userId], references: [id])
-  userId Int   @map("user_id")
-  pet    PPet  @relation(fields: [petId], references: [id])
-  petId  Int   @map("ret_id")
+  id        Int      @id @default(autoincrement())
+  user      PUser    @relation(fields: [userId], references: [id])
+  userId    Int      @map("user_id")
+  pet       PPet     @relation(fields: [petId], references: [id])
+  petId     Int      @map("pet_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("users_pets")
 }
 
 model PCondition {
-  id              Int     @id @default(autoincrement())
-  weight          Int?    @db.Int //体重
-  length          Int?    @db.Int //体長
-  temperature     Int?    @db.Int //体温
-  shit            String? @db.VarChar(10) //下痢
-  shit_state      String? @db.LongText
-  condition       String? @db.VarChar(255) //体調
-  condition_state String? @db.LongText
-  vomiting        String? @db.VarChar(10) //嘔吐
-  vomiting_state  String? @db.LongText
-  pet             PPet    @relation(fields: [petId], references: [id])
-  petId           Int     @map("ret_id")
+  id              Int            @id @default(autoincrement())
+  weight          Int?           @db.Int //体重
+  length          Int?           @db.Int //体長
+  temperature     Int?           @db.Int //体温
+  shit            ShitType? //下痢
+  shit_state      String?        @db.LongText //下痢の状態
+  condition       ConditionType? //体調
+  condition_state String?        @db.LongText //体調の状態
+  vomiting        Boolean        @default(false) //嘔吐
+  vomiting_state  String?        @db.LongText //嘔吐の状態
+  pet             PPet           @relation(fields: [petId], references: [id])
+  petId           Int            @map("pet_id")
+  createdAt       DateTime       @default(now()) @map("created_at")
+  updatedAt       DateTime       @default(now()) @updatedAt @map("updated_at")
 
   @@map("conditions")
 }
 
 model PBragging {
-  id      Int     @id @default(autoincrement())
-  title   String  @db.VarChar(255) //自慢タイトル
-  content String  @db.VarChar(255) //自慢内容
-  picture String? @db.VarChar(255)
-  user    PUser   @relation(fields: [userId], references: [id])
-  userId  Int     @map("user_id")
-  pet     PPet    @relation(fields: [petId], references: [id])
-  petId   Int     @map("ret_id")
+  id        Int      @id @default(autoincrement())
+  title     String   @db.VarChar(255) //自慢タイトル
+  content   String   @db.VarChar(255) //自慢内容
+  picture   String?  @db.VarChar(255)
+  user      PUser    @relation(fields: [userId], references: [id])
+  userId    Int      @map("user_id")
+  pet       PPet     @relation(fields: [petId], references: [id])
+  petId     Int      @map("pet_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("branggings")
 }
 
 model PReview {
-  id         Int     @id @default(autoincrement())
-  name       String  @db.VarChar(255) //レビュー対象の名前
-  content    String  @db.VarChar(255) //レビュー内容
-  category   String  @db.VarChar(255) //レビュー対象のカテゴリ
-  evaluation String  @db.VarChar(255) //評価
-  picture    String? @db.VarChar(255)
-  user       PUser   @relation(fields: [userId], references: [id])
-  userId     Int     @map("user_id")
+  id         Int      @id @default(autoincrement())
+  name       String   @db.VarChar(255) //レビュー対象の名前
+  content    String   @db.VarChar(255) //レビュー内容
+  category   String   @db.VarChar(255) //レビュー対象のカテゴリ
+  evaluation String   @db.VarChar(255) //評価
+  picture    String?  @db.VarChar(255)
+  user       PUser    @relation(fields: [userId], references: [id])
+  userId     Int      @map("user_id")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("reviews")
 }
 
 model PLike {
-  id     Int   @id @default(autoincrement())
-  user   PUser @relation(fields: [userId], references: [id])
-  userId Int   @map("user_id")
-  pet    PPet  @relation(fields: [petId], references: [id])
-  petId  Int   @map("ret_id")
+  id        Int      @id @default(autoincrement())
+  user      PUser    @relation(fields: [userId], references: [id])
+  userId    Int      @map("user_id")
+  pet       PPet     @relation(fields: [petId], references: [id])
+  petId     Int      @map("pet_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("likes")
 }
@@ -169,10 +201,12 @@ model PQuestion {
   title          String        @db.VarChar(255) //質問のタイトル
   content        String        @db.LongText //質問の内容
   question_genre String        @db.VarChar(50) //質問のジャンル
-  question_time  DateTime      @db.DateTime() //質問した時間
+  question_time  DateTime      @db.DateTime(0) //質問した時間
   answered       Boolean       @db.TinyInt //回答済みかどうか
   user           PUser         @relation(fields: [userId], references: [id])
   userId         Int           @map("user_id")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @default(now()) @updatedAt @map("updated_at")
   PRespondent    PRespondent[]
 
   @@map("questions")
@@ -185,18 +219,22 @@ model PRespondent {
   userId     Int       @map("user_id")
   question   PQuestion @relation(fields: [questionId], references: [id])
   questionId Int       @map("question_id")
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @default(now()) @updatedAt @map("updated_at")
 
   @@map("respondents")
 }
 
 model PCare {
-  id      Int      @id @default(autoincrement())
-  name    String   @db.VarChar(255) //世話の名前
-  content String   @db.LongText // 世話の内容
-  time    DateTime @db.Timestamp() //世話した時間
-  memo    String?  @db.LongText
-  pet     PPet     @relation(fields: [petId], references: [id])
-  petId   Int      @map("ret_id")
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(255) //世話の名前
+  content   String   @db.LongText // 世話の内容
+  time      DateTime @db.Timestamp() //世話した時間
+  memo      String?  @db.LongText
+  pet       PPet     @relation(fields: [petId], references: [id])
+  petId     Int      @map("pet_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("cares")
 }
@@ -206,9 +244,11 @@ model PSpending {
   name          String   @db.VarChar(255) //支払いしたものの名前
   category      String   @db.VarChar(50) //支払いのカテゴリ
   amount        Int      @db.Int //支払いした金額
-  spending_date DateTime @db.DateTime() //支払い日時
+  spending_date DateTime @db.DateTime(0) //支払い日時
   pet           PPet     @relation(fields: [petId], references: [id])
-  petId         Int      @map("ret_id")
+  petId         Int      @map("pet_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("spendings")
 }

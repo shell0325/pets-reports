@@ -16,4 +16,6 @@ export type Respondent = Readonly<{
   content: string;
   respondent_id: UserCode;
   question_id: QuestionCode;
+  createdAt: Date;
+  updatedAt: Date;
 }>;

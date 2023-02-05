@@ -14,6 +14,8 @@ export type RegisterPetInputDto = {
   welcome_family: Date;
   memo: string | null;
   userId: UserCode;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type RegisterPetOutputDto = {
@@ -26,6 +28,8 @@ export type RegisterPetOutputDto = {
   color: string;
   welcome_family: Date;
   memo: string | null;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export const REGISTER_PET_USE_CASE_PROVIDER = 'REGISTER_PET_USE_CASE';

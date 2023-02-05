@@ -21,10 +21,17 @@ import { USER_PET_REPOSITORY_PROVIDE } from '~/domain/userpet/userpetRepository'
 import { UserPetRepository } from '~/adaptor/secondary/rdbms/userpetRepository';
 import { USER_PET_QUERY_SERVICE_PROVIDE } from '~/usecase/queries/userpetQueryService';
 import { UserPetQueryService } from '~/adaptor/secondary/rdbms/userpetQueryService';
+import { ConditionController } from './condition/conditionController';
+import { REGISTER_CONDITION_USE_CASE_PROVIDER } from '~/usecase/commands/registerConditionUseCase/registerConditionUseCase';
+import { RegisterConditionInteractor } from '~/usecase/commands/registerConditionUseCase/registerConditionInteractor';
+import { CONDITION_REPOSITORY_PROVIDE } from '~/domain/condition/conditionRepository';
+import { ConditionRepository } from '~/adaptor/secondary/rdbms/conditionRepository';
+import { CONDITION_QUERY_SERVICE_PROVIDE } from '~/usecase/queries/conditionQueryService';
+import { ConditionQueryService } from '~/adaptor/secondary/rdbms/conditionQueryService';
 
 @Module({
   imports: [UseCaseModule],
-  controllers: [UserController, PetController],
+  controllers: [UserController, PetController, ConditionController],
   providers: [
     {
       provide: CREATE_USER_USE_CASE_PROVIDER,
@@ -61,6 +68,18 @@ import { UserPetQueryService } from '~/adaptor/secondary/rdbms/userpetQueryServi
     {
       provide: USER_PET_QUERY_SERVICE_PROVIDE,
       useClass: UserPetQueryService,
+    },
+    {
+      provide: CONDITION_REPOSITORY_PROVIDE,
+      useClass: ConditionRepository,
+    },
+    {
+      provide: CONDITION_QUERY_SERVICE_PROVIDE,
+      useClass: ConditionQueryService,
+    },
+    {
+      provide: REGISTER_CONDITION_USE_CASE_PROVIDER,
+      useClass: RegisterConditionInteractor,
     },
     Object,
     PrismaService,

@@ -10,6 +10,8 @@ export type CreateUserInputDto = {
   gender: null;
   age: null;
   location: null;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type CreateUserOutputDto = {
@@ -20,6 +22,8 @@ export type CreateUserOutputDto = {
   gender: GenderType | null;
   age: number | null;
   location: LocationType | null;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export const CREATE_USER_USE_CASE_PROVIDER = 'CREATE_USER_USE_CASE';

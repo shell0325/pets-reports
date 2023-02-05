@@ -21,4 +21,6 @@ export type Question = Readonly<{
   question_time: Date;
   answered: boolean;
   questioner_id: UserCode;
+  createdAt: Date;
+  updatedAt: Date;
 }>;

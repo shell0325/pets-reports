@@ -16,11 +16,11 @@ import { PrismaService } from './prisma/prismaService';
 export const convertUserToUser = (pUser: PUser): User => {
   const { id, gender, location, age, ...omitPUser } = pUser;
   return {
-    ...omitPUser,
     id: UserCode.iso.wrap(id),
     gender: gender || null,
     location: location || null,
     age: age || null,
+    ...omitPUser,
   };
 };
 

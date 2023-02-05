@@ -9,7 +9,7 @@ import { SpendingCode } from './spendingCode';
  * @property category - 支出カテゴリー
  * @property amount - 支出金額
  * @property spending_date - 支出日
- * @property pet_id - ペットID
+ * @property petId - ペットID
  */
 
 export type Spending = Readonly<{
@@ -18,5 +18,7 @@ export type Spending = Readonly<{
   category: string;
   amount: number;
   spending_date: Date;
-  pet_id: PetCode;
+  petId: PetCode;
+  createdAt: Date;
+  updatedAt: Date;
 }>;

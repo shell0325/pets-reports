@@ -16,6 +16,8 @@ export type UserPet = Readonly<{
   id: UserPetCode;
   userId: UserCode;
   petId: PetCode;
+  createdAt: Date;
+  updatedAt: Date;
 }>;
 
 export type RegisterUserPet = Readonly<{
