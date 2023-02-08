@@ -1,3 +1,5 @@
+import { rawStrArr2EnumLikeObj } from '~/common/utils/enumLikeObj';
+
 /**
  * 体調タイプ
  *
@@ -7,8 +9,6 @@
  * @property NOT_FEELING_WELL - 少し悪い
  * @property SICK - 具合が悪い
  */
-
-import { rawStrArr2EnumLikeObj } from '~/common/utils/enumLikeObj';
 
 export const CONDITION_TYPE = rawStrArr2EnumLikeObj([
   'GREAT_CONDITION',

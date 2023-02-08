@@ -1,5 +1,7 @@
 import { PetCode } from '../pet/petCode';
 import { CareCode } from './careCode';
+import { CareType } from './careType';
+import * as Eq from 'fp-ts/Eq';
 
 /**
  * お世話
@@ -14,7 +16,7 @@ import { CareCode } from './careCode';
 
 export type Care = Readonly<{
   id: CareCode;
-  name: string;
+  name: CareType;
   content: string;
   time: Date;
   memo: string | null;
@@ -22,3 +24,26 @@ export type Care = Readonly<{
   createdAt: Date;
   updatedAt: Date;
 }>;
+
+export type CareValidate = Readonly<{
+  id: CareCode;
+  name: CareType;
+  content: string;
+  time: Date;
+  memo: string | null;
+  petId: PetCode;
+}>;
+
+export const Care = {
+  eq: Eq.contramap<CareCode, Care>((condition) => condition.id)(
+    CareCode.eq,
+  ),
+  register(input: Care) {
+    const { id, petId, ...omitInput } = input;
+    return {
+      id: CareCode.iso.unwrap(id),
+      petId: PetCode.iso.unwrap(petId),
+      ...omitInput,
+    };
+  },
+};

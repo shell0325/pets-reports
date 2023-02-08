@@ -8,7 +8,7 @@ import {
 } from '~/domain/pet/petRepository';
 import { PrismaService } from './prisma/prismaService';
 
-export const convertPetTOPet = (pPet: PPet): Pet => {
+export const convertPetToPet = (pPet: PPet): Pet => {
   const { id, picture, memo, gender, ...omitPPet } = pPet;
   return {
     ...omitPPet,
@@ -44,7 +44,7 @@ export class PetRepository implements IPetRepository {
         memo: pet.memo,
       },
     });
-    return convertPetTOPet(pPet);
+    return convertPetToPet(pPet);
   }
 
   /**
@@ -66,7 +66,7 @@ export class PetRepository implements IPetRepository {
     if (!pet) {
       return null;
     }
-    return convertPetTOPet(pet);
+    return convertPetToPet(pet);
   }
 }
 

@@ -9,7 +9,7 @@ import {
 import { PetCode } from '~/domain/pet/petCode';
 import { PrismaService } from './prisma/prismaService';
 
-export const convertConditionTOCondition = (
+export const convertConditionToCondition = (
   pCondition: PCondition,
 ): Condition => {
   const {
@@ -70,7 +70,7 @@ export class ConditionRepository implements IConditionRepository {
         petId: condition.petId,
       },
     });
-    return convertConditionTOCondition(pCondition);
+    return convertConditionToCondition(pCondition);
   }
 
   /**
@@ -90,7 +90,7 @@ export class ConditionRepository implements IConditionRepository {
     if (!pCondition.length) {
       return null;
     }
-    return pCondition.map((result) => convertConditionTOCondition(result));
+    return pCondition.map((result) => convertConditionToCondition(result));
   }
 }
 

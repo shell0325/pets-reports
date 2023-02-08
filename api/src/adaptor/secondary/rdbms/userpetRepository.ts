@@ -10,7 +10,7 @@ import {
 } from '~/domain/userpet/userpetRepository';
 import { PrismaService } from './prisma/prismaService';
 
-export const convertUserPetTOUserPet = (pUserPet: PUserPet): UserPet => {
+export const convertUserPetToUserPet = (pUserPet: PUserPet): UserPet => {
   const { id, userId, petId, ...omitInput } = pUserPet;
   return {
     id: UserPetCode.iso.wrap(id),
@@ -34,7 +34,7 @@ export class UserPetRepository implements IUserPetRepository {
         petId: PetCode.iso.unwrap(userPet.petId),
       },
     });
-    return convertUserPetTOUserPet(pUserPet);
+    return convertUserPetToUserPet(pUserPet);
   }
 
   async findUserPetByUser(userId: UserCode): Promise<UserPet[] | null> {
@@ -50,7 +50,7 @@ export class UserPetRepository implements IUserPetRepository {
     if (!userPet.length) {
       return null;
     }
-    return userPet.map((result) => convertUserPetTOUserPet(result));
+    return userPet.map((result) => convertUserPetToUserPet(result));
   }
 }
 
