@@ -81,6 +81,18 @@ enum ConditionType {
   SICK
 }
 
+enum CareType {
+  Meal
+  Toilet
+  Hospital
+  Medicine
+  Salon
+  Stroll
+  Shopping
+  Bath
+  Others
+}
+
 model PUser {
   id          Int           @id @default(autoincrement())
   name        String        @db.VarChar(40)
@@ -227,7 +239,7 @@ model PRespondent {
 
 model PCare {
   id        Int      @id @default(autoincrement())
-  name      String   @db.VarChar(255) //世話の名前
+  name      CareType //世話の名前
   content   String   @db.LongText // 世話の内容
   time      DateTime @db.Timestamp() //世話した時間
   memo      String?  @db.LongText

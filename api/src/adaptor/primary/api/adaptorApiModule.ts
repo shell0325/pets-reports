@@ -28,10 +28,22 @@ import { CONDITION_REPOSITORY_PROVIDE } from '~/domain/condition/conditionReposi
 import { ConditionRepository } from '~/adaptor/secondary/rdbms/conditionRepository';
 import { CONDITION_QUERY_SERVICE_PROVIDE } from '~/usecase/queries/conditionQueryService';
 import { ConditionQueryService } from '~/adaptor/secondary/rdbms/conditionQueryService';
+import { CareController } from './care/careController';
+import { REGISTER_CARE_USE_CASE_PROVIDER } from '~/usecase/commands/registerCareUseCase/registerCareUseCase';
+import { RegisterCareInteractor } from '~/usecase/commands/registerCareUseCase/registerCareInteractor';
+import { CARE_REPOSITORY_PROVIDE } from '~/domain/care/careRepository';
+import { CareRepository } from '~/adaptor/secondary/rdbms/careRepository';
+import { CARE_QUERY_SERVICE_PROVIDE } from '~/usecase/queries/careQueryService';
+import { CareQueryService } from '~/adaptor/secondary/rdbms/careQueryService';
 
 @Module({
   imports: [UseCaseModule],
-  controllers: [UserController, PetController, ConditionController],
+  controllers: [
+    UserController,
+    PetController,
+    ConditionController,
+    CareController,
+  ],
   providers: [
     {
       provide: CREATE_USER_USE_CASE_PROVIDER,
@@ -80,6 +92,18 @@ import { ConditionQueryService } from '~/adaptor/secondary/rdbms/conditionQueryS
     {
       provide: REGISTER_CONDITION_USE_CASE_PROVIDER,
       useClass: RegisterConditionInteractor,
+    },
+    {
+      provide: CARE_REPOSITORY_PROVIDE,
+      useClass: CareRepository,
+    },
+    {
+      provide: CARE_QUERY_SERVICE_PROVIDE,
+      useClass: CareQueryService,
+    },
+    {
+      provide: REGISTER_CARE_USE_CASE_PROVIDER,
+      useClass: RegisterCareInteractor,
     },
     Object,
     PrismaService,

@@ -58,7 +58,7 @@ export class ConditionQueryService implements IConditionQueryService {
       throw new NotFoundException('ペットIDを入力してください。');
     }
     const condition = await this.conditionRepository.findCondition(petId);
-    if (!condition) {
+    if (!condition.length) {
       throw new NotFoundException('体調が登録されていません。');
     }
     return condition;
