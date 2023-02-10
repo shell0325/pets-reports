@@ -6,5 +6,5 @@ export class GetCareRequestDto {
   @IsOptional()
   @Type(() => Number)
   @IsInt()
-  id: PetCode;
+  petId: PetCode;
 }
