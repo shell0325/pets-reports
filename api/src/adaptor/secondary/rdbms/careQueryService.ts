@@ -52,14 +52,14 @@ export class CareQueryService implements ICareQueryService {
   }
 
   async findCare(param: GetCareRequestDto): Promise<Care[]> {
-    if (!param.id) {
+    if (!param.petId) {
       throw new NotFoundException('ペットIDを入力してください。');
     }
-    const pet = await this.petRepository.findPet(param.id)
+    const pet = await this.petRepository.findPet(param.petId)
     if (!pet) {
       throw new NotFoundException('ペットが見つかりません。')
     }
-    const care = await this.careRepository.findCare(param.id);
+    const care = await this.careRepository.findCare(param.petId);
     if (!care.length) {
       throw new NotFoundException('お世話情報が登録されていません');
     }
