@@ -28,6 +28,7 @@ export type User = Readonly<{
 }>;
 
 export type CreateUserOutputDto = {
+  id: UserCode;
   name: string;
   email: string;
   password: string;
