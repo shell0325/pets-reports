@@ -35,6 +35,13 @@ import { CARE_REPOSITORY_PROVIDE } from '~/domain/care/careRepository';
 import { CareRepository } from '~/adaptor/secondary/rdbms/careRepository';
 import { CARE_QUERY_SERVICE_PROVIDE } from '~/usecase/queries/careQueryService';
 import { CareQueryService } from '~/adaptor/secondary/rdbms/careQueryService';
+import { BraggingController } from './bragging/braggingController';
+import { REGISTER_BRAGGING_USE_CASE_PROVIDER } from '~/usecase/commands/registerBraggingUseCase/registerBraggingUseCase';
+import { RegisterBraggingInteractor } from '~/usecase/commands/registerBraggingUseCase/registerBraggingInteractor';
+import { BRAGGING_REPOSITORY_PROVIDE } from '~/domain/bragging/braggingRepository';
+import { BraggingRepository } from '~/adaptor/secondary/rdbms/braggingRepository';
+import { BRAGGING_QUERY_SERVICE_PROVIDE } from '~/usecase/queries/braggingQueryService';
+import { BraggingQueryService } from '~/adaptor/secondary/rdbms/braggingQueryService';
 
 @Module({
   imports: [UseCaseModule],
@@ -43,6 +50,7 @@ import { CareQueryService } from '~/adaptor/secondary/rdbms/careQueryService';
     PetController,
     ConditionController,
     CareController,
+    BraggingController,
   ],
   providers: [
     {
@@ -104,6 +112,18 @@ import { CareQueryService } from '~/adaptor/secondary/rdbms/careQueryService';
     {
       provide: REGISTER_CARE_USE_CASE_PROVIDER,
       useClass: RegisterCareInteractor,
+    },
+    {
+      provide: BRAGGING_REPOSITORY_PROVIDE,
+      useClass: BraggingRepository,
+    },
+    {
+      provide: BRAGGING_QUERY_SERVICE_PROVIDE,
+      useClass: BraggingQueryService,
+    },
+    {
+      provide: REGISTER_BRAGGING_USE_CASE_PROVIDER,
+      useClass: RegisterBraggingInteractor,
     },
     Object,
     PrismaService,

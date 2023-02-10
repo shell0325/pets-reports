@@ -35,7 +35,7 @@ export type CareValidate = Readonly<{
 }>;
 
 export const Care = {
-  eq: Eq.contramap<CareCode, Care>((condition) => condition.id)(
+  eq: Eq.contramap<CareCode, Care>((care) => care.id)(
     CareCode.eq,
   ),
   register(input: Care) {

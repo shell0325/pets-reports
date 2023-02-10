@@ -69,6 +69,23 @@ export class UserRepository implements IUserRepository {
     }
   }
 
+  async findUserById(id: UserCode): Promise<CreateUserOutputDto | null> {
+    if (!id) {
+      throw new NotFoundException('idを入力してください。');
+    }
+
+    const user = await this.prisma.pUser.findUnique({
+      where: {
+        id: UserCode.iso.unwrap(id),
+      },
+    });
+    if (!user) {
+      return null;
+    } else {
+      return convertUserToUser(user);
+    }
+  }
+
   async updateUser(input: updateUserInputDto): Promise<User> {
     const updateUser = await this.prisma.pUser.update({
       where: {
