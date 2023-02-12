@@ -42,6 +42,13 @@ import { BRAGGING_REPOSITORY_PROVIDE } from '~/domain/bragging/braggingRepositor
 import { BraggingRepository } from '~/adaptor/secondary/rdbms/braggingRepository';
 import { BRAGGING_QUERY_SERVICE_PROVIDE } from '~/usecase/queries/braggingQueryService';
 import { BraggingQueryService } from '~/adaptor/secondary/rdbms/braggingQueryService';
+import { ReviewController } from './review/reviewController';
+import { REGISTER_REVIEW_USE_CASE_PROVIDER } from '~/usecase/commands/registerReviewUseCase/registerReviewUseCase';
+import { RegisterReviewInteractor } from '~/usecase/commands/registerReviewUseCase/registerReviewInteractor';
+import { REVIEW_REPOSITORY_PROVIDE } from '~/domain/review/reviewRepository';
+import { ReviewRepository } from '~/adaptor/secondary/rdbms/reviewRepository';
+import { REVIEW_QUERY_SERVICE_PROVIDE } from '~/usecase/queries/reviewQueryService';
+import { ReviewQueryService } from '~/adaptor/secondary/rdbms/reviewQueryService';
 
 @Module({
   imports: [UseCaseModule],
@@ -51,6 +58,7 @@ import { BraggingQueryService } from '~/adaptor/secondary/rdbms/braggingQuerySer
     ConditionController,
     CareController,
     BraggingController,
+    ReviewController,
   ],
   providers: [
     {
@@ -124,6 +132,18 @@ import { BraggingQueryService } from '~/adaptor/secondary/rdbms/braggingQuerySer
     {
       provide: REGISTER_BRAGGING_USE_CASE_PROVIDER,
       useClass: RegisterBraggingInteractor,
+    },
+    {
+      provide: REVIEW_REPOSITORY_PROVIDE,
+      useClass: ReviewRepository,
+    },
+    {
+      provide: REVIEW_QUERY_SERVICE_PROVIDE,
+      useClass: ReviewQueryService,
+    },
+    {
+      provide: REGISTER_REVIEW_USE_CASE_PROVIDER,
+      useClass: RegisterReviewInteractor,
     },
     Object,
     PrismaService,

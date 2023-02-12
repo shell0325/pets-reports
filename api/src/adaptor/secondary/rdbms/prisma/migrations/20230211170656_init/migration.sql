@@ -1,0 +1,12 @@
+/*
+  Warnings:
+
+  - You are about to alter the column `time` on the `cares` table. The data in that column could be lost. The data in that column will be cast from `Timestamp(0)` to `Timestamp`.
+  - You are about to alter the column `evaluation` on the `reviews` table. The data in that column could be lost. The data in that column will be cast from `VarChar(255)` to `Enum(EnumId(5))`.
+
+*/
+-- AlterTable
+ALTER TABLE `cares` MODIFY `time` TIMESTAMP NOT NULL;
+
+-- AlterTable
+ALTER TABLE `reviews` MODIFY `evaluation` ENUM('STAR1', 'STAR2', 'STAR3', 'STAR4', 'STAR5') NOT NULL;
