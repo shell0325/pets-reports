@@ -1,19 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { CategoryType } from '@prisma/client';
 import { Type } from 'class-transformer';
 import { IsDateString, IsInt, IsOptional, IsString } from 'class-validator';
-import { BraggingCode } from '~/domain/bragging/braggingCode';
-import { PetCode } from '~/domain/pet/petCode';
+import { ReviewCode } from '~/domain/review/reviewCode';
 import { UserCode } from '~/domain/user/userCode';
 
-export class FindBraggingResponseDto {
+export class FindReviewResponseDto {
   @IsOptional()
   @Type(() => Number)
   @IsInt()
-  id: BraggingCode;
+  id: ReviewCode;
 
   @IsOptional()
   @IsString()
-  title: string;
+  name: string;
 
   @IsOptional()
   @IsString()
@@ -21,13 +21,12 @@ export class FindBraggingResponseDto {
 
   @IsOptional()
   @IsString()
-  @ApiProperty({ nullable: true })
-  picture: string | null;
+  category: CategoryType;
 
   @IsOptional()
-  @Type(() => Number)
-  @IsInt()
-  petId: PetCode;
+  @IsString()
+  @ApiProperty({ nullable: true })
+  picture: string | null;
 
   @IsOptional()
   @Type(() => Number)

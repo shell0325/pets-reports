@@ -9,6 +9,7 @@ import {
 } from '~/usecase/queries/braggingQueryService';
 import { findBraggingRequestDto } from './requests/findBraggingRequest.dto';
 import { RegisterBraggingRequestDto } from './requests/registerBraggingRequest.dto';
+import { FindBraggingResponseDto } from './response/findBraggingResponse.dto';
 import { RegisterBraggingResponseDto } from './response/registerBraggingResponse.dto';
 
 @Controller('bragging')
@@ -23,7 +24,7 @@ export class BraggingController {
   @Get()
   async findBragging(
     @Body() param: findBraggingRequestDto,
-  ): Promise<RegisterBraggingResponseDto[]> {
+  ): Promise<FindBraggingResponseDto[]> {
     const bragging = await this.BraggingService.findBragging(param);
 
     return bragging;

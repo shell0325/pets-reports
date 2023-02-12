@@ -93,6 +93,37 @@ enum CareType {
   Others
 }
 
+enum EvaluationType {
+  STAR1
+  STAR2
+  STAR3
+  STAR4
+  STAR5
+}
+
+enum CategoryType {
+  Toy
+  PetFood
+  PetShop
+  AnimalHospital
+  Supplement
+  IndoorGoods
+  Bed
+  Collar
+  Wear
+  OutingGoods
+  CarrierBag
+  DriveGoods
+  DeodorantProducts
+  CareProducts
+  ToiletProducts
+  DisciplineProducts
+  NursingCareProducts
+  PetHouse
+  NameTag
+  MiscellaneousGoods
+}
+
 model PUser {
   id          Int           @id @default(autoincrement())
   name        String        @db.VarChar(40)
@@ -138,7 +169,7 @@ model PPet {
 model PUserPet {
   id        Int      @id @default(autoincrement())
   user      PUser    @relation(fields: [userId], references: [id])
-  userId    Int      @map("user_id")
+  userId    Int      @map("userId")
   pet       PPet     @relation(fields: [petId], references: [id])
   petId     Int      @map("pet_id")
   createdAt DateTime @default(now()) @map("created_at")
@@ -172,7 +203,7 @@ model PBragging {
   content   String   @db.VarChar(255) //自慢内容
   picture   String?  @db.VarChar(255)
   user      PUser    @relation(fields: [userId], references: [id])
-  userId    Int      @map("user_id")
+  userId    Int      @map("userId")
   pet       PPet     @relation(fields: [petId], references: [id])
   petId     Int      @map("pet_id")
   createdAt DateTime @default(now()) @map("created_at")
@@ -182,16 +213,16 @@ model PBragging {
 }
 
 model PReview {
-  id         Int      @id @default(autoincrement())
-  name       String   @db.VarChar(255) //レビュー対象の名前
-  content    String   @db.VarChar(255) //レビュー内容
-  category   String   @db.VarChar(255) //レビュー対象のカテゴリ
-  evaluation String   @db.VarChar(255) //評価
-  picture    String?  @db.VarChar(255)
-  user       PUser    @relation(fields: [userId], references: [id])
-  userId     Int      @map("user_id")
-  createdAt  DateTime @default(now()) @map("created_at")
-  updatedAt  DateTime @default(now()) @updatedAt @map("updated_at")
+  id         Int            @id @default(autoincrement())
+  name       String         @db.VarChar(255) //レビュー対象の名前
+  content    String         @db.VarChar(255) //レビュー内容
+  category   CategoryType //レビュー対象のカテゴリ
+  evaluation EvaluationType //評価
+  picture    String?        @db.VarChar(255)
+  user       PUser          @relation(fields: [userId], references: [id])
+  userId     Int            @map("userId")
+  createdAt  DateTime       @default(now()) @map("created_at")
+  updatedAt  DateTime       @default(now()) @updatedAt @map("updated_at")
 
   @@map("reviews")
 }
@@ -199,7 +230,7 @@ model PReview {
 model PLike {
   id        Int      @id @default(autoincrement())
   user      PUser    @relation(fields: [userId], references: [id])
-  userId    Int      @map("user_id")
+  userId    Int      @map("userId")
   pet       PPet     @relation(fields: [petId], references: [id])
   petId     Int      @map("pet_id")
   createdAt DateTime @default(now()) @map("created_at")
@@ -216,7 +247,7 @@ model PQuestion {
   question_time  DateTime      @db.DateTime(0) //質問した時間
   answered       Boolean       @db.TinyInt //回答済みかどうか
   user           PUser         @relation(fields: [userId], references: [id])
-  userId         Int           @map("user_id")
+  userId         Int           @map("userId")
   createdAt      DateTime      @default(now()) @map("created_at")
   updatedAt      DateTime      @default(now()) @updatedAt @map("updated_at")
   PRespondent    PRespondent[]
@@ -228,7 +259,7 @@ model PRespondent {
   id         Int       @id @default(autoincrement())
   content    String    @db.LongText //質問回答の内容
   user       PUser     @relation(fields: [userId], references: [id])
-  userId     Int       @map("user_id")
+  userId     Int       @map("userId")
   question   PQuestion @relation(fields: [questionId], references: [id])
   questionId Int       @map("question_id")
   createdAt  DateTime  @default(now()) @map("created_at")
